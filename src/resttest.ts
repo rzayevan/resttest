@@ -14,5 +14,7 @@ async function activate() {
         console.log("----------------------------------------");
     } catch (error) {
         console.log(`Whoops! Looks like there has been a glitch in the Matrix :(`);
+        // TODO: Add a logger to log detailed errors
+        // logger.error(`Detailed error: ${error}`);
     }
 }

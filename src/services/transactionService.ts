@@ -15,13 +15,30 @@ export interface Transaction {
     Company: string;
 }
 
+/**
+ * This service contains operations related to Transactions API
+ * https://resttest.bench.co/transactions/
+ */
 export abstract class TransactionService {
     static readonly id: ServiceId<TransactionService> = { id: TransactionService.name };
 
+    /**
+     * Fetches transactions across all pages
+     * @returns transactions if successful, error if page limit has exceeded
+     */
     abstract fetchAllTransactions(): Promise<Transaction[]>;
 
+    /**
+     * Calculates total amounts for each date
+     * @param transactions - transactions that need to be parsed
+     * @returns a string in "date | total amount" format if successful, an error otherwise
+     */
     abstract calculateDailyBalances(transactions: Transaction[]): string;
 
+    /**
+     * Fetches the content of the page specified from Transactions API
+     * @param page - the name of the page that will be fetched
+     */
     abstract getPageContent(page: number): Promise<PageContent>;
 }
 
@@ -29,7 +46,9 @@ const MAX_PAGES = 100;
 export class TransactionServiceImpl implements TransactionService {
 
     calculateDailyBalances(transactions: Transaction[]): string { 
-        let dailyBalances = new Map(); // (date, sum)
+        let dailyBalances = new Map(); // format -> (date, total amount)
+
+        // calculate total amounts for each date and add them to the map
         transactions.forEach( (transaction: Transaction) => {
             let date: string = transaction.Date;
             let amount: number = parseFloat(transaction.Amount);
@@ -59,6 +78,7 @@ export class TransactionServiceImpl implements TransactionService {
         let page = 1; // start page
         let totalTransactionCount: number = (await this.getPageContent(page)).totalCount;
 
+        // keep parsing pages until all transactions have been fetched
         let fetchedTransactions: Transaction[] = [];
         while (fetchedTransactions.length < totalTransactionCount) {
             let pageContent: PageContent = await this.getPageContent(page);
