@@ -3,7 +3,7 @@ This repository has been created to solve the problem listed in https://resttest
 
 ## How to Run
 
-- Make sure that your system runs the latest version of node.js
+- Make sure that your system runs node.js version >= 16.6.2
 - Run `npm install` to download all dependencies
 - Run `npm start` to launch the program
 - Run `npm test` to run the tests
