@@ -14,6 +14,6 @@ It wasn't clear in the instructions how different error scenarios should be hand
 - The API does not contain corrupt data
 - The API is responsible for setting the correct upper limit for amounts
 
-## Trade-offs and Limitations
+## Limitations and Trade-offs
 - There isn't official support for older node versions since it hasn't been tested
 - An additional API call is made at the start to fetch total transaction count. This call has been kept for readability purposes since it makes it easier to understand the code
