@@ -1,6 +1,6 @@
 import { getService, initServices } from "../src/services/serviceContainer";
 import { PageContent, Transaction, TransactionService } from "../src/services/transactionService";
-import { generateFloatOnlyTransactions, generateIntegerOnlyTransactions, getMixedExpectedDailyBalance, getFloatOnlyExpectedDailyBalance, getIntegerOnlyExpectedDailyBalance, generateMixedTransactions, generateInvalidTransactions } from "./test-utils/transactionServiceTestUtils";
+import { generateFloatOnlyTransactions, generateIntegerOnlyTransactions, getMixedExpectedDailyBalance, getFloatOnlyExpectedDailyBalance, getIntegerOnlyExpectedDailyBalance, generateMixedTransactions, generateInvalidTransactions, generateHugeTransactions } from "./test-utils/transactionServiceTestUtils";
 
 describe("Transaction Service tests", () => {
     initServices();
@@ -56,9 +56,16 @@ describe("Transaction Service tests", () => {
     });
 
     it("Calculating daily balances; Really big numbers", async () => {
+        let transactions: Transaction[] = generateHugeTransactions();
+        expect(() => {
+            getService(TransactionService.id).calculateDailyBalances(transactions)
+        }).toThrow('Balance too large to display');
+    });
+
+    it("Calculating daily balances; Invalid number format", async () => {
         let transactions: Transaction[] = generateInvalidTransactions();
-        let calculatedDailyBalance = getService(TransactionService.id).calculateDailyBalances(transactions);
-        // should be defined since I didn't put an upper limit
-        expect(calculatedDailyBalance).toBeDefined();
+        expect(() => {
+            getService(TransactionService.id).calculateDailyBalances(transactions)
+          }).toThrow('Invalid amount format');
     });
 });

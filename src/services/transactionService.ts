@@ -33,10 +33,16 @@ export class TransactionServiceImpl implements TransactionService {
         transactions.forEach( (transaction: Transaction) => {
             let date: string = transaction.Date;
             let amount: number = parseFloat(transaction.Amount);
-            if (dailyBalances.has(date)) {
-                amount += dailyBalances.get(date);
+            if (Number.isNaN(amount)) {
+                throw new Error("Invalid amount format");
             }
 
+            if (dailyBalances.has(date)) {
+                amount += dailyBalances.get(date);
+                if (!Number.isFinite(amount)) {
+                    throw new Error("Balance too large to display");
+                }
+            }
             dailyBalances.set(date, amount);
         });
 

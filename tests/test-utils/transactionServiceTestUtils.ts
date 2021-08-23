@@ -61,11 +61,20 @@ export function getIntegerOnlyExpectedDailyBalance(): string {
     return expected;
 }
 
-export function generateInvalidTransactions(): Transaction[] {
+export function generateHugeTransactions(): Transaction[] {
 
     return [
         { Date: "2012-12-12", Amount: `${Number.MAX_VALUE}`, Company: "Company 1", Ledger: "Expense"},
-        { Date: "2012-12-13", Amount: `${Number.MAX_VALUE}`, Company: "Payment", Ledger: ""},
+        { Date: "2012-12-12", Amount: `${Number.MAX_VALUE}`, Company: "Payment", Ledger: ""},
+        { Date: "2012-12-14", Amount: "-100000", Company: "Company 5", Ledger: "Expense"}
+    ];
+}
+
+export function generateInvalidTransactions(): Transaction[] {
+
+    return [
+        { Date: "2012-12-12", Amount: `ABCD`, Company: "Company 1", Ledger: "Expense"},
+        { Date: "2012-12-13", Amount: `EFG`, Company: "Payment", Ledger: ""},
         { Date: "2012-12-14", Amount: "-100000", Company: "Company 5", Ledger: "Expense"}
     ];
 }
