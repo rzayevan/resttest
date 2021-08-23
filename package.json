@@ -1,17 +1,18 @@
 {
   "name": "resttest",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bench Rest Test",
   "main": "resttest.ts",
   "scripts": {
     "build": "tsc --project ./",
     "start": "ts-node ./src/resttest.ts"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Nara Rzayeva",
   "license": "MIT",
   "dependencies": {
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "node-dependency-injection": "^2.7.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/node": "^16.7.1",
